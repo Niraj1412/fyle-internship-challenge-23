@@ -1,5 +1,33 @@
 <div class="grid h-screen place-items-center">
-  <div class="font-bold text-3xl">
+  <div class="font-bold text-3xl text-blue-500">
     Fyle Internship Challenge
+  </div>
+
+  <input type="text" placeholder="Enter GitHub Username" [(ngModel)]="githubUsername">
+  <button (click)="fetchRepositories()">Search</button>
+  <div *ngIf="loading">Loading...</div>
+
+  <!-- Carousel -->
+  <owl-carousel-o [options]="carouselOptions">
+    <ng-container *ngFor="let repo of repositories">
+      <ng-container *ngIf="repo.name">
+        <owl-carousel-o-slide>
+          <div class="bg-gray-200 p-4 rounded-lg shadow-md">
+            <h2 class="text-lg font-semibold mb-2">{{ repo.name }}</h2>
+            <p class="text-gray-600 mb-4">{{ repo.description }}</p>
+            <div class="flex space-x-2 mb-4">
+              <span class="bg-blue-200 text-blue-800 px-2 py-1 rounded">{{ repo.language }}</span>
+              <span *ngFor="let tech of repo.techStack" class="bg-gray-200 text-gray-800 px-2 py-1 rounded">{{ tech }}</span>
+            </div>
+            <!-- Add other repository information here -->
+          </div>
+        </owl-carousel-o-slide>
+      </ng-container>
+    </ng-container>
+  </owl-carousel-o>
+
+  <!-- No repositories found message -->
+  <div *ngIf="repositories.length === 0 && !loading">
+    No repositories found.
   </div>
 </div>
