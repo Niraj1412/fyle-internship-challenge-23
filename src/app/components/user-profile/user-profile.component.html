@@ -1,0 +1,34 @@
+<!-- Skeleton loader for repositories -->
+<div *ngIf="loading" class="w-full flex flex-col md:flex-row md:justify-around pb-2 border-b-2">
+    <div class="w-full md:w-6/12 flex flex-row md:justify-center">
+      <div class="animate-pulse rounded-full h-32 w-32 bg-gray-200"></div>
+    </div>
+  
+    <div class="w-full flex flex-col items-center md:w-6/12 md:flex-none md:items-start p-6 md:p-4">
+      <div class="animate-pulse h-6 w-full bg-gray-200 mb-4"></div>
+      <div class="animate-pulse h-4 w-full bg-gray-200 mb-2"></div>
+      <div class="flex space-x-2">
+        <div class="animate-pulse h-4 w-1/2 bg-gray-200"></div>
+        <div class="animate-pulse h-4 w-1/2 bg-gray-200"></div>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="userProfile && !loading" class="w-full flex flex-col md:flex-row md:justify-around pb-2 border-b-2">
+    <div class="w-full md:w-6/12 flex flex-row md:justify-center">
+      <img class="round-img m-auto md:m-none md:float-left shrink-0" [src]="userProfile.avatar_url" />
+    </div>
+  
+    <div class="w-full flex flex-col items-center md:w-6/12 md:flex-none md:items-start p-6 md:p-4">
+      <div class="float-center md:float-none text-2xl md:text-3xl">{{ userProfile.name }}</div>
+      <a [href]="userProfile.html_url" target="_blank">
+        <div class="float-center md:float-none text-xs md:text-sm antialiased hover:scale-125 hover:cursor-pointer">{{ userProfile.login }}</div>
+      </a>
+      <div>{{ userProfile.bio }}</div>
+      <div>{{ userProfile.blog }}</div>
+      <div class="text-center">{{ userProfile.location }}</div>
+      <div>{{ userProfile.email }}</div>
+      <div>{{ userProfile.twitter_username }}</div>
+    </div>
+  </div>
+  
