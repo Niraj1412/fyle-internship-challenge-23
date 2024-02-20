@@ -39,7 +39,7 @@ export class UserProfileComponent implements OnInit, OnDestroy, OnChanges {
     clearTimeout(this.fetchTimeout);
     this.fetchTimeout = setTimeout(() => {
       this.fetchUserProfile();
-    }, 2000); // 1000 milliseconds delay
+    }, 200); // 1000 milliseconds delay
   }
 
   private fetchUserProfile(): void {

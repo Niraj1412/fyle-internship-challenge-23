@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from './services/api.service';
-import { NgModel } from '@angular/forms';
 
+interface Repository {
+  name: string;
+  description: string;
+  language: string;
+  techStack: string[];
+}
 
 @Component({
   selector: 'app-root',
@@ -10,85 +15,79 @@ import { NgModel } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   githubUsername: string = '';
-  repositories: any[] = [];
+  repositories: Repository[] = [];
   loading: boolean = false;
-<<<<<<< HEAD
-  loadError: any;
-  touchedDisplay: any;
-  title: string = 'fyle-frontend-challenge';
-=======
->>>>>>> 72e878f57935db1c226c598d4f3072b13d958ef7
-
-  // Carousel options
-  carouselOptions = {
-    loop: true,
-    autoplay: true,
-    autoplayTimeout: 3000,
-    autoplayHoverPause: true,
-    navText: ['<', '>'], // Customize navigation arrows
-    responsive: {
-      0: {
-        items: 1
-      },
-      600: {
-        items: 2
-      },
-      1000: {
-        items: 3
-      }
-    }
-  };
+  pageSize: number = 10;
+  totalRepositories: number = 0;
+  currentPage: number = 1;
+  pageSizeOptions: number[] = [10, 20, 50, 100];
 
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {
-    // Call the method to fetch repositories when component initializes
     this.fetchRepositories();
-<<<<<<< HEAD
-=======
   }
 
   fetchRepositories() {
-    this.loading = true;
-    this.apiService.getRepos(this.githubUsername, 1, 10) // Default page size 10
-      .subscribe(
-        (data: any[]) => {
-          this.repositories = data;
-          this.loading = false;
-        },
-        (error: any) => {
-          console.error('Error fetching repositories:', error);
-          this.loading = false;
-        }
-      );
->>>>>>> 72e878f57935db1c226c598d4f3072b13d958ef7
-  }
-
-  fetchRepositories() {
-    // Check if githubUsername is empty
     if (!this.githubUsername) {
       console.error('GitHub username is empty. Please provide a username.');
       return;
     }
   
-    // Set loading to true before fetching repositories
     this.loading = true;
-    
-    setTimeout(() => {
-      this.apiService.getRepos(this.githubUsername, 1, 10) // Default page size 10
-        .subscribe(
-          (data: any[]) => {
-            this.repositories = data;
-            // Set loading back to false after fetching repositories
-            this.loading = false;
-          },
-          (error: any) => {
-            console.error('Error fetching repositories:', error);
-            // Set loading back to false in case of error
-            this.loading = false;
-          }
-        );
-    }, 1000); // Add a delay of 1 second before fetching repositories
+    const offset = (this.currentPage - 1) * this.pageSize;
+  
+    this.apiService.getRepos(this.githubUsername, this.currentPage, this.pageSize)
+      .subscribe(
+        (data: any[]) => {
+          console.log('Repositories:', data); // Log the response to check if data is received
+          this.repositories = data;
+          this.loading = false;
+          this.totalRepositories = data.length; // Update total repositories count
+        },
+        (error: any) => {
+          console.error('Error fetching repositories:', error);
+          this.loading = false;
+          this.repositories = []; // Clear repositories in case of error
+        }
+      );
   }
   
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+    this.fetchRepositories();
+  }
+
+  onPageSizeChange(event: any) {
+    const value = event?.target?.value;
+    if (value) {
+      this.pageSize = parseInt(value, 10);
+      this.fetchRepositories();
+    }
+  }
+
+  goToPreviousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.fetchRepositories();
+    } else {
+      console.log('Already at the first page.');
+    }
+  }
+
+  goToNextPage() {
+    const totalPages = Math.ceil(this.totalRepositories / this.pageSize);
+    if (this.currentPage < totalPages) {
+      this.currentPage++;
+      this.fetchRepositories();
+    } else {
+      console.log('Already at the last page.');
+    }
+  }
+
+  getPageNumbers(): number[] {
+    const totalPages = Math.ceil(this.totalRepositories / this.pageSize);
+    return Array.from({ length: totalPages }, (_, i) => i + 1);
+  }
 }

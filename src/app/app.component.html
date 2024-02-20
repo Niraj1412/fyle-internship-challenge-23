@@ -1,105 +1,65 @@
 <div class="grid h-screen place-items-center">
-<<<<<<< HEAD
-    <div class="font-bold text-3xl mb-8"> <!-- Added mb-8 for bottom margin -->
-        Fyle Internships Challenge
-    </div>
-    <div class="flex flex-col items-center"> <!-- Added flex and items-center for centering -->
-        <input type="text" placeholder="Enter GitHub Username" [(ngModel)]="githubUsername" class="mt-4 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500">
-        <button (click)="fetchRepositories()" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Search</button>
-    </div>
-    <app-user-profile [githubUsername]="githubUsername"></app-user-profile>
-    <div *ngIf="loading" class="animate-pulse md:grid grid-cols-10 gap-10 h-36 w-full flex flex-col md:flex-none">
-        <div class="col-start-2 border-l-2 rounded-lg border-b-2 col-span-4 border-violet-500 text-left p-2 shadow-xl shadow-cyan-500/50 mx-6 md:mx-2">
-            <div class="h-6 md:h-8 w-1/3 rounded-lg bg-gray-200 my-2"></div>
-            <div class="h-6 md:h-8 w-2/3 rounded-lg bg-gray-200"></div>
-        </div>
-        <div class="border-l-2 rounded-lg border-b-2 col-span-4 border-violet-500 text-left p-2 shadow-xl shadow-cyan-500/50 mx-6 md:mx-2">
-            <div class="h-6 md:h-8 w-1/3 rounded-lg bg-gray-200 my-3"></div>
-            <div class="h-6 md:h-8 w-2/3 rounded-lg bg-gray-200"></div>
-        </div>
-    </div>
-    <div *ngIf="repositories.length > 0" class="container px-5 mt-14 mb-20">
-        <!-- Repository section -->
-        <div class="swiper-container" #swiperContainer>
-            
-            <div class="swiper-wrapper">
-                <div class="swiper-container mx-auto bg-white border border-black shadow-lg p-8" #swiperContainer>
-                    <ng-container *ngFor="let repo of repositories; let i = index;">
-                        <div *ngIf="i % 2 === 0" class="swiper-slide flex flex-wrap">
-                            <div class="w-1/2 px-2">
-                                <!-- Repository card -->
-                                <div class="bg-white border border-black rounded-lg shadow-md mb-4 p-6"> <!-- Removed max-w-md and adjusted width -->
-                                    <!-- Repository name -->
-                                    <h2 class="text-xl font-semibold mb-2 text-gray-800">{{ repositories[i].name }}</h2>
-                                    <!-- Repository description -->
-                                    <p class="text-sm text-gray-600 mb-4">{{ repositories[i].description }}</p>
-                                    <!-- Repository language and tech stack -->
-                                    <div class="flex space-x-2 mb-2">
-                                        <!-- Language -->
-                                        <span class="bg-blue-200 text-blue-800 px-2 py-1 rounded">{{ repositories[i].language }}</span>
-                                        <!-- Tech stack -->
-                                        <span *ngFor="let tech of repositories[i].techStack" class="bg-gray-200 text-gray-800 px-2 py-1 rounded">{{ tech }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-1/2 px-2" *ngIf="i + 1 < repositories.length">
-                                <!-- Repository card -->
-                                <div class="bg-white border border-black rounded-lg shadow-md mb-4 p-6"> <!-- Removed max-w-md and adjusted width -->
-                                    <!-- Repository name -->
-                                    <h2 class="text-xl font-semibold mb-2 text-gray-800">{{ repositories[i + 1].name }}</h2>
-                                    <!-- Repository description -->
-                                    <p class="text-sm text-gray-600 mb-4">{{ repositories[i + 1].description }}</p>
-                                    <!-- Repository language and tech stack -->
-                                    <div class="flex space-x-2 mb-2">
-                                        <!-- Language -->
-                                        <span class="bg-blue-200 text-blue-800 px-2 py-1 rounded">{{ repositories[i + 1].language }}</span>
-                                        <!-- Tech stack -->
-                                        <span *ngFor="let tech of repositories[i + 1].techStack" class="bg-gray-200 text-gray-800 px-2 py-1 rounded">{{ tech }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </ng-container>
-                </div>
-            </div>
-            <!-- Add pagination -->
-            <div class="swiper-pagination"></div>
-        </div>
-    </div>
-    <div *ngIf="repositories.length === 0 && !loading" class="text-gray-700">
-        No repositories found.
-    </div>
-=======
-  <div class="font-bold text-3xl text-blue-500">
-    Fyle Internship Challenge
+  <div class="font-bold text-3xl mb-8">Fyle Internships Challenge</div>
+  <div class="flex flex-col items-center">
+    <input type="text" placeholder="Enter GitHub Username" [(ngModel)]="githubUsername" class="mt-4 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500">
+    <button (click)="fetchRepositories()" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Search</button>
   </div>
-
-  <input type="text" placeholder="Enter GitHub Username" [(ngModel)]="githubUsername">
-  <button (click)="fetchRepositories()">Search</button>
-  <div *ngIf="loading">Loading...</div>
-
-  <!-- Carousel -->
-  <owl-carousel-o [options]="carouselOptions">
-    <ng-container *ngFor="let repo of repositories">
-      <ng-container *ngIf="repo.name">
-        <owl-carousel-o-slide>
-          <div class="bg-gray-200 p-4 rounded-lg shadow-md">
-            <h2 class="text-lg font-semibold mb-2">{{ repo.name }}</h2>
-            <p class="text-gray-600 mb-4">{{ repo.description }}</p>
-            <div class="flex space-x-2 mb-4">
-              <span class="bg-blue-200 text-blue-800 px-2 py-1 rounded">{{ repo.language }}</span>
-              <span *ngFor="let tech of repo.techStack" class="bg-gray-200 text-gray-800 px-2 py-1 rounded">{{ tech }}</span>
+  <app-user-profile [githubUsername]="githubUsername"></app-user-profile>
+  <div *ngIf="loading" class="animate-pulse md:grid grid-cols-10 gap-10 h-36 w-full flex flex-col md:flex-none">
+    <div class="col-start-2 border-l-2 rounded-lg border-b-2 col-span-4 bg-gray-500 text-left p-2 shadow-xl shadow-cyan-500/50 mx-6 md:mx-2">
+      <div class="h-6 md:h-8 w-1/3 rounded-lg bg-gray-200 my-2"></div>
+      <div class="h-6 md:h-8 w-2/3 rounded-lg bg-gray-200"></div>
+    </div>
+    <div class="border-l-2 rounded-lg border-b-2 col-span-4 bg-gray-500 text-left p-2 shadow-xl shadow-black-500/50 mx-6 md:mx-2">
+      <div class="h-6 md:h-8 w-1/3 rounded-lg bg-gray-200 my-3"></div>
+      <div class="h-6 md:h-8 w-2/3 rounded-lg bg-gray-200"></div>
+    </div>
+  </div>
+  <div *ngIf="repositories.length > 0" class="container px-5 mt-14 mb-20">
+    <!-- Pagination dropdown -->
+    <div class="flex items-center mb-4">
+      <label for="pageSize">Repositories per page:</label>
+      <select id="pageSize" [(ngModel)]="pageSize" (change)="onPageSizeChange($event)"
+        class="ml-2 px-2 py-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500">
+        <option *ngFor="let option of pageSizeOptions" [value]="option">{{ option }}</option>
+      </select>
+    </div>
+    <!-- Repository section -->
+    <div class="swiper-container" #swiperContainer>
+      <div class="swiper-wrapper">
+        <div class="swiper-container mx-auto bg-white border border-black shadow-lg p-8" #swiperContainer>
+          <ng-container *ngFor="let repo of repositories; let i = index;">
+            <div *ngIf="i % pageSize === 0" class="swiper-slide flex flex-wrap">
+              <div class="w-1/2 px-2" *ngFor="let repo of repositories.slice(i, i + pageSize)">
+                <!-- Repository card -->
+                <div class="bg-white border border-black rounded-lg shadow-md mb-4 p-6 hover:bg-gray-100">
+                  <!-- Repository name -->
+                  <h2 class="text-xl font-semibold mb-2 text-gray-800">{{ repo.name }}</h2>
+                  <!-- Repository description -->
+                  <p class="text-sm text-gray-600 mb-4">{{ repo.description }}</p>
+                  <!-- Repository language and tech stack -->
+                  <div class="flex space-x-2 mb-2">
+                    <!-- Language -->
+                    <span class="bg-blue-200 text-blue-800 px-2 py-1 rounded">{{ repo.language }}</span>
+                    <!-- Tech stack -->
+                    <span *ngFor="let tech of repo.techStack" class="bg-gray-200 text-gray-800 px-2 py-1 rounded">{{ tech }}</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <!-- Add other repository information here -->
-          </div>
-        </owl-carousel-o-slide>
-      </ng-container>
-    </ng-container>
-  </owl-carousel-o>
-
-  <!-- No repositories found message -->
-  <div *ngIf="repositories.length === 0 && !loading">
+          </ng-container>
+        </div>
+      </div>
+      <!-- Add pagination -->
+      <div class="swiper-pagination"></div>
+    </div>
+    <!-- Pagination buttons -->
+    <div class="flex justify-center mt-4">
+      <button (click)="goToPreviousPage()" class="px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Previous</button>
+      <button (click)="goToNextPage()" class="px-4 py-2 ml-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Next</button>
+    </div>
+  </div>
+  <div *ngIf="repositories.length === 0 && !loading" class="text-gray-700">
     No repositories found.
   </div>
->>>>>>> 72e878f57935db1c226c598d4f3072b13d958ef7
 </div>
